@@ -42,6 +42,13 @@
             //console.log('-----error--------');console.log(error);
             $('#ResultTable').html('');
         }
+        
+        
+        function DeleteRecord(RecordId){
+        console.log('RecordId'+RecordId);
+        
+        }
+
 
         function GetDBData(ResultData) {//console.log(ResultData);
              var ContentData = JSON.parse(ResultData);
@@ -56,13 +63,34 @@
                 if (tempobj.Link != null) {
                     if (CountNum !== 1) {
                         CountNum--; 
-                        tablehtml += '<tr><td></td><td><a href="'+tempobj.Link+'" target="_blank" >' + tempobj.Title + '</a></td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
+                        tablehtml += '<tr><td>  <button type="button" class="btn btn-danger" onclick="DeleteRecord('+tempobj.Id+')"><span class="fa fa-trash" aria-hidden="true"></span> </button> </td><td><a href="'+tempobj.Link+'" target="_blank" >' + tempobj.Title + '</a></td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
 
                     }
                 }
             } while (ContentData.length > 0);
             tablehtml += '</tbody></table>';
             $('#ResultTable').html(tablehtml);
+            
+            
+            $('#ResultData').DataTable({
+                "order": [
+                    [2, "desc"]
+                ],
+                "dom": '<"top">rt<"bottom"Bfpil><"clear">',
+                "iDisplayLength": 50,
+                buttons: [{
+                    text: 'Create New Link',
+                    action: function(e, dt, node, config) {
+                        window.location.href = "#"; // console.log( 'Button activated' );
+                    }
+                }]
+            });
+            $('#ResultData').on('page.dt', function() {//console.log('change Page');
+                $('html, body').animate({
+                    scrollTop: 0
+                }, 700);
+            }).dataTable();
+
             
         }
 
