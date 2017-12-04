@@ -52,13 +52,21 @@
 
 
         function SaveFunction() {
+        var e = document.getElementById("TypeOption");
+        var TypeOption = e.options[e.selectedIndex].value;
+        
+        if($("#InputType").val()){
+        TypeOption=$("#InputType").val();
+        }
+        
             var inputobject = {
                 Link: $("#InputURL").val(),
                 Title: $("#InputTitle").val(),
+                Type:TypeOption,
                 Description: $("#Description").val(),
             };
             console.log(inputobject);
-            // var temp = google.script.run.withSuccessHandler(GetSaveResult).ConnectSaveRecord(inputobject);
+             var temp = google.script.run.withSuccessHandler(GetSaveResult).SaveRecord(inputobject);
         }
 
 
@@ -159,11 +167,11 @@
 
                     <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
                         <label for="Title">Title:</label>
-                        <select name="cars" style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
-                     <option value="volvo">Study</option>
-                     <option value="saab">News</option>
-                     <option value="mercedes">Temp</option>
-                     <option value="audi">Common usage</option>
+                        <select id="TypeOption" name="cars" style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
+                           <option value="volvo">Study</option>
+                           <option value="saab">News</option>
+                           <option value="mercedes">Temp</option>
+                           <option value="audi">Common usage</option>
                      </select>
 
                     </div>

@@ -1,3 +1,6 @@
+var BookMarkFileName = 'BookMarkDB_DoNoDelete';
+
+
 function doGet() {//https://script.google.com/macros/s/AKfycbyHMYAOOPsa8gfpAxZ7fdyNZoQPDTCDa4TnsuxIYuMFmpwDtmY/exec
     return HtmlService.createHtmlOutputFromFile('index')
         .setSandboxMode(HtmlService.SandboxMode.IFRAME).addMetaTag('viewport', 'width=device-width, initial-scale=1');
@@ -38,7 +41,7 @@ function LoadingData(varr) {
     }
 
     if (isOld) {
-        var filesExcel = DriveApp.searchFiles('title ="BookMarkDB"');
+        var filesExcel = DriveApp.searchFiles('title ="'+BookMarkFileName+'"');
         if (filesExcel.hasNext() || filesExcel != null) {
             while (filesExcel.hasNext()) {
                 FileId = filesExcel.next().getId();
@@ -92,11 +95,11 @@ function SaveRecord(inputObject) {
 
     } //inputObject = {Link:"digdigme.com", Title:"DigMe - Test"};
 
-    var filesExcel = DriveApp.searchFiles('title ="BookMarkDB"');
+    var filesExcel = DriveApp.searchFiles('title ="'+BookMarkFileName+'"');
     var FileId;
     if (!filesExcel.hasNext() || filesExcel == null) {
         Logger.log('No exist File, Need to create new Database');
-        var ssNew = SpreadsheetApp.create("DRecordDB");
+        var ssNew = SpreadsheetApp.create(BookMarkFileName);
         ssNew.appendRow(["Id", "rowPosition", "Link","Title","Type","Description","Protected" ,"CreatedTime"]);
         FileId = ssNew.getId();
         isNew = true;
@@ -111,7 +114,7 @@ function SaveRecord(inputObject) {
 
     var CurrentTime = new Date();
     var UniqueId = new Date().getTime();
-    Datas.appendRow([UniqueId,1,inputObject.Link, inputObject.Title, 'Type',inputObject.Description,false, CurrentTime]);
+    Datas.appendRow([UniqueId,1,inputObject.Link, inputObject.Title,inputObject.Type,inputObject.Description,false, CurrentTime]);
 
     if (isNew) {
         var copyFile = DriveApp.getFileById(FileId);
