@@ -63,7 +63,7 @@
                 if (tempobj.Link != null) {
                     if (CountNum !== 1) {
                         CountNum--; 
-                        tablehtml += '<tr><td>  <button type="button" class="btn btn-danger" onclick="DeleteRecord('+tempobj.Id+')"><span class="fa fa-trash" aria-hidden="true"></span> </button> </td><td><a href="'+tempobj.Link+'" target="_blank" >' + tempobj.Title + '</a></td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
+                        tablehtml += '<tr><td>  <button type="button" class="btn btn-danger" onclick="DeleteRecord('+tempobj.Id+')"><span class="fa fa-trash fa-lg " aria-hidden="true"></span> </button> </td><td><a href="'+tempobj.Link+'" target="_blank" >' + tempobj.Title + '</a></td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
 
                     }
                 }
@@ -146,6 +146,11 @@
             $("#Description").val('');
 
             $('#InfoMessage').html('');
+        }
+        
+        
+        function ToggleInputForm(){
+        $("#Paneldiv").toggle();
         }
     </script>
     <style>
