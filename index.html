@@ -55,15 +55,15 @@
                 var tempobj = ContentData.pop(); 
                 if (tempobj.Link != null) {
                     if (CountNum !== 1) {
-                        CountNum--;
-                        tablehtml += '<tr><td></td><td>' + tempobj.Title + '</td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
+                        CountNum--; 
+                        tablehtml += '<tr><td></td><td><a href="'+tempobj.Link+'" target="_blank" >' + tempobj.Title + '</a></td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
 
                     }
                 }
             } while (ContentData.length > 0);
             tablehtml += '</tbody></table>';
-              
-             
+            $('#ResultTable').html(tablehtml);
+            
         }
 
 
