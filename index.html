@@ -27,9 +27,7 @@
             $("#InputURL").on("change keyup paste", function() { //console.log('change!'+$("#Inputlink").val());//
                 var temp = google.script.run.withSuccessHandler(GetLinkResult).GetLinkTitle($("#InputURL").val());
             });
-
-
-
+            RetrieveData();
         });
 
 
@@ -45,28 +43,47 @@
             $('#ResultTable').html('');
         }
 
-        function GetDBData(ResultData) {
-            console.log(ResultData);
+        function GetDBData(ResultData) {//console.log(ResultData);
+             var ContentData = JSON.parse(ResultData);
+             var tablehtml = '<table  id="ResultData" class="table table-striped table-bordered" cellspacing="0" width="100%" > ' +
+                '<thead><tr><th>Action</th><th >Name</th><th >Type</th><th  >Description</th> </tr></thead>';
+            tablehtml += '<tbody>';
+             
+              var CountNum = ContentData.length;
+              
+              do {
+                var tempobj = ContentData.pop(); 
+                if (tempobj.Link != null) {
+                    if (CountNum !== 1) {
+                        CountNum--;
+                        tablehtml += '<tr><td></td><td>' + tempobj.Title + '</td><td >' + tempobj.Type + '</td><td>' + tempobj.Description + '</td></tr>';
+
+                    }
+                }
+            } while (ContentData.length > 0);
+            tablehtml += '</tbody></table>';
+              
+             
         }
 
 
 
         function SaveFunction() {
-        var e = document.getElementById("TypeOption");
-        var TypeOption = e.options[e.selectedIndex].value;
-        
-        if($("#InputType").val()){
-        TypeOption=$("#InputType").val();
-        }
-        
+            var e = document.getElementById("TypeOption");
+            var TypeOption = e.options[e.selectedIndex].value;
+
+            if ($("#InputType").val()) {
+                TypeOption = $("#InputType").val();
+            }
+
             var inputobject = {
                 Link: $("#InputURL").val(),
                 Title: $("#InputTitle").val(),
-                Type:TypeOption,
+                Type: TypeOption,
                 Description: $("#Description").val(),
             };
             console.log(inputobject);
-             var temp = google.script.run.withSuccessHandler(GetSaveResult).SaveRecord(inputobject);
+            var temp = google.script.run.withSuccessHandler(GetSaveResult).SaveRecord(inputobject);
         }
 
 
@@ -78,7 +95,7 @@
             //InfoMessage
             var innerHTML = '<div class="alert alert-success fade in"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Save Success!</strong> </div>';
             $('#InfoMessage').html(innerHTML);
-            // RetrieveData();
+             RetrieveData();
         }
 
 
@@ -154,7 +171,8 @@
             <div class="panel panel-primary">
                 <div class="panel-heading"> <a onclick="ToggleInputForm();" style="font-weight: bold;color:white">New Bookmark </a></div>
                 <div class="panel-body" id="Paneldiv">
-
+                    <div class="row" id="InfoMessage" style="padding-left:1em; padding-right:1em;"> 
+                    </div>
                     <div class="row rowcss " id="LinkInfo" style="padding-left:1em; padding-right:1em;">
                         <label for="Title">Web Link:</label>
                         <input type="text" class="form-control" id="InputURL" placeholder="Input URL">

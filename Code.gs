@@ -61,7 +61,7 @@ function LoadingData(varr) {
                 Link: data[i][2],
               Title: data[i][3],
               Type: data[i][4],
-              Protected: data[i][6],Description: data[i][5],
+              Description: data[i][5],Protected: data[i][6],
               CreateTime: String(data[i][7])
             };
 
