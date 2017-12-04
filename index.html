@@ -93,6 +93,12 @@
 
 
 
+            var selectobject = document.getElementById("TypeOption")
+            for (var i = 0; i < selectobject.length; i++) {
+                selectobject.remove(i);
+            }
+
+
             $("#ResultData tfoot th").each(function(i) {
 
                 if ($(this).text() !== '') {
@@ -108,6 +114,11 @@
 
 
                     table.column(i).data().unique().sort().each(function(d, j) {
+                        var opt = document.createElement("option");
+                        opt.value = d;
+                        opt.textContent = d;
+                        selectobject.appendChild(opt);
+
                         select.append('<option value="' + d + '">' + d + '</option>');
                     });
 
@@ -168,6 +179,7 @@
             $("#InputURL").val('');
             $("#InputTitle").val('');
             $("#Description").val('');
+            $("#InputType").val('');
 
             $('#InfoMessage').html('');
         }
@@ -241,7 +253,7 @@
                     </div>
 
                     <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
-                        <label for="Title">Title:</label>
+                        <label for="Title">Type:</label>
                         <select id="TypeOption" name="cars" style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
                            <option value="volvo">Study</option>
                            <option value="saab">News</option>
