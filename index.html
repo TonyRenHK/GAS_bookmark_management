@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
-  <head>
+
+<head>
     <base target="_top">
-        <title>Bookmark Management</title>
+    <title>Bookmark Management</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -22,22 +23,77 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
     <script>
-     $(document).ready(function() {
-      $("#InputURL").on("change keyup paste", function() { //console.log('change!'+$("#Inputlink").val());//
+        $(document).ready(function() {
+            $("#InputURL").on("change keyup paste", function() { //console.log('change!'+$("#Inputlink").val());//
                 var temp = google.script.run.withSuccessHandler(GetLinkResult).GetLinkTitle($("#InputURL").val());
-            })
-     });
-     
-      /*
-        Get title from link and write to the input field
+            });
+
+
+
+        });
+
+
+        function RetrieveData() {
+            var tempHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading...';
+            $('#ResultTable').html(tempHTML);
+            var temp2 = google.script.run.withSuccessHandler(GetDBData).withFailureHandler(FailureHandler).LoadingData('123');
+        }
+
+
+        function FailureHandler(error) {
+            //console.log('-----error--------');console.log(error);
+            $('#ResultTable').html('');
+        }
+
+        function GetDBData(ResultData) {
+            console.log(ResultData);
+        }
+
+
+
+        function SaveFunction() {
+            var inputobject = {
+                Link: $("#InputURL").val(),
+                Title: $("#InputTitle").val(),
+                Description: $("#Description").val(),
+            };
+            console.log(inputobject);
+            // var temp = google.script.run.withSuccessHandler(GetSaveResult).ConnectSaveRecord(inputobject);
+        }
+
+
+        /*
+        Success Case Handler
         */
-        
+        function GetSaveResult(ResultData) {
+            //console.log(ResultData);//console.log('Save Success!');
+            //InfoMessage
+            var innerHTML = '<div class="alert alert-success fade in"> <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> <strong>Save Success!</strong> </div>';
+            $('#InfoMessage').html(innerHTML);
+            // RetrieveData();
+        }
+
+
+
+        /*
+         Get title from link and write to the input field
+         */
+
         function GetLinkResult(ResultData) { //
             console.log('Enter GetLinkResult'); //
             console.log(typeof ResultData);
             $("#InputTitle").val(ResultData);
         }
 
+
+
+        function ClearFunction() {
+            $("#InputURL").val('');
+            $("#InputTitle").val('');
+            $("#Description").val('');
+
+            $('#InfoMessage').html('');
+        }
     </script>
     <style>
         .rowcss {
@@ -46,9 +102,10 @@
             padding-right: 1em;
         }
     </style>
-  </head>
-  <body>
-    
+</head>
+
+<body>
+
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
             <div class="navbar-header">
@@ -80,43 +137,43 @@
             </div>
         </div>
     </nav>
-    
-    
-    
-    
+
+
+
+
     <div class="container">
         <div class="row" style="padding-left:1em; padding-right:1em;">
             <div class="panel panel-primary">
                 <div class="panel-heading"> <a onclick="ToggleInputForm();" style="font-weight: bold;color:white">New Bookmark </a></div>
                 <div class="panel-body" id="Paneldiv">
-                 
+
                     <div class="row rowcss " id="LinkInfo" style="padding-left:1em; padding-right:1em;">
-                     <label for="Title">Web Link:</label>
+                        <label for="Title">Web Link:</label>
                         <input type="text" class="form-control" id="InputURL" placeholder="Input URL">
                     </div>
 
-                    <div class="row rowcss"  style="padding-left:1em; padding-right:1em;">
+                    <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
                         <label for="Title">Title:</label>
                         <input type="text" class="form-control" id="InputTitle" placeholder="Input Title">
                     </div>
-                    
-                     <div class="row rowcss"  style="padding-left:1em; padding-right:1em;">
-                      <label for="Title">Title:</label> 
-                        <select name="cars"  style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;" >
+
+                    <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
+                        <label for="Title">Title:</label>
+                        <select name="cars" style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
                      <option value="volvo">Study</option>
                      <option value="saab">News</option>
                      <option value="mercedes">Temp</option>
                      <option value="audi">Common usage</option>
                      </select>
-                     
-                     </div>
-                    
-                    <div class="row rowcss"  style="padding-left:1em; padding-right:1em;">
-                    <input type="text" id="InputType" placeholder="Input New Type" style="display: block; width: 40%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
-                     </div>
-                    
-                     
-                     
+
+                    </div>
+
+                    <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
+                        <input type="text" id="InputType" placeholder="Input New Type" style="display: block; width: 40%; height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
+                    </div>
+
+
+
                     <div class="row rowcss form-group">
                         <label for="comment">Description:</label>
                         <textarea rows="2" id="Description" class="form-control"></textarea>
@@ -138,8 +195,7 @@
 
 
     </div>
-    
-  </body>
+
+</body>
+
 </html>
-
-
