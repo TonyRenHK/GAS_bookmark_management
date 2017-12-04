@@ -16,7 +16,7 @@ function GetLinkTitle(inputLink) {
 
 
 
-  //rowPosition	Title	Grouping	Type	Link	Protected	CreateTime	Description
+  
   
 
 
@@ -68,4 +68,58 @@ function LoadingData(varr) {
     Logger.log(ReturnList);
     return JSON.stringify(ReturnList);
 }
+
+
+
+
+
+
+
+
+//***** SaveRecord  to google spreadsheet *************** //rowPosition	Title	Grouping	Type	Link	Protected	CreateTime	Description 
+function SaveRecord(inputObject) {
+    var folderName = 'TonyApp';
+    var folder;
+    var isNew = false;
+    var folders = DriveApp.getFoldersByName(folderName); // replace by the right folder name, assuming there is only one folder with this name
+    if (!folders.hasNext() || folders == null) {
+        Logger.log('Failed');
+        folder = DriveApp.createFolder(folderName);
+    } else {
+        while (folders.hasNext()) {
+            folder = folders.next();
+        }
+
+    } //inputObject = {Link:"digdigme.com", Title:"DigMe - Test"};
+
+    var filesExcel = DriveApp.searchFiles('title ="BookMarkDB"');
+    var FileId;
+    if (!filesExcel.hasNext() || filesExcel == null) {
+        Logger.log('No exist File, Need to create new Database');
+        var ssNew = SpreadsheetApp.create("DRecordDB");
+        ssNew.appendRow(["Id", "rowPosition", "Link","Title","Type","Description","Protected" ,"CreatedTime"]);
+        FileId = ssNew.getId();
+        isNew = true;
+    } else { //
+        Logger.log('exist File');
+        while (filesExcel.hasNext()) {
+            FileId = filesExcel.next().getId();
+        }
+    } //End IF-Else: Get File ID
+
+    var Datas = SpreadsheetApp.openById(FileId); // Logger.log(Datas.getName());
+
+    var CurrentTime = new Date();
+    var UniqueId = new Date().getTime();
+    Datas.appendRow([UniqueId,1,inputObject.Link, inputObject.Title, 'Type',inputObject.Description,false, CurrentTime]);
+
+    if (isNew) {
+        var copyFile = DriveApp.getFileById(FileId);
+        folder.addFile(copyFile);
+        DriveApp.getRootFolder().removeFile(copyFile);
+    }
+
+
+}
+
 
