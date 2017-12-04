@@ -46,7 +46,7 @@
         
         function DeleteRecord(RecordId){
         console.log('RecordId'+RecordId);
-        
+        var temp2 = google.script.run.withSuccessHandler(RetrieveData).withFailureHandler(RetrieveData).DeleteData(RecordId);
         }
 
 
