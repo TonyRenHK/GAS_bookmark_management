@@ -2,7 +2,7 @@ var BookMarkFileName = 'BookMarkDB_DoNoDelete';
 
 
 function doGet() { //https://script.google.com/macros/s/AKfycbyHMYAOOPsa8gfpAxZ7fdyNZoQPDTCDa4TnsuxIYuMFmpwDtmY/exec
-    return HtmlService.createHtmlOutputFromFile('index')
+    return HtmlService.createHtmlOutputFromFile('index').setTitle('Bookmark Management').setFaviconUrl('https://raw.githubusercontent.com/TonyRenHK/TonyRenHK.github.io/master/favicon.ico')
         .setSandboxMode(HtmlService.SandboxMode.IFRAME).addMetaTag('viewport', 'width=device-width, initial-scale=1');
 }
 

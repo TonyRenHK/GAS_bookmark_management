@@ -23,6 +23,8 @@
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.bootstrap.min.js"></script>
     <script>
+    var CurrentRecordId='';
+    
         $(document).ready(function() {
             $("#InputURL").on("change keyup paste", function() { //console.log('change!'+$("#Inputlink").val());//
                 var temp = google.script.run.withSuccessHandler(GetLinkResult).GetLinkTitle($("#InputURL").val());
@@ -32,6 +34,7 @@
 
 
         function RetrieveData() {
+        	document.title = "Bookmark Management";
             var tempHTML = '<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i> Loading...';
             $('#ResultTable').html(tempHTML);
             var temp2 = google.script.run.withSuccessHandler(GetDBData).withFailureHandler(FailureHandler).LoadingData('123');
@@ -102,7 +105,7 @@
             $("#ResultData tfoot th").each(function(i) {
 
                 if ($(this).text() !== '') {
-                    var select = $('<select><option value=""></option></select>')
+                    var select = $('<select style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;" ><option value=""></option></select>')
                         .appendTo($(this).empty())
                         .on('change', function() {
                             var val = $(this).val();
@@ -255,10 +258,10 @@
                     <div class="row rowcss" style="padding-left:1em; padding-right:1em;">
                         <label for="Title">Type:</label>
                         <select id="TypeOption" name="cars" style="display: block;  height: 34px; padding: 6px 12px; font-size: 14px; line-height: 1.42857143; color: #555; background-color: #fff; background-image: none; border: 1px solid #ccc; border-radius: 4px;">
-                           <option value="volvo">Study</option>
-                           <option value="saab">News</option>
-                           <option value="mercedes">Temp</option>
-                           <option value="audi">Common usage</option>
+                           <option value="Study">Study</option>
+                           <option value="News">News</option>
+                           <option value="Temp">Temp</option>
+                           <option value="Common usage">Common usage</option>
                      </select>
 
                     </div>
